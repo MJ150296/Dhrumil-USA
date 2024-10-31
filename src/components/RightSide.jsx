@@ -10,7 +10,7 @@ function RightSide({ dataset }) {
   const [showAQICard, setShowAQICard] = useState(false);
 
   const pollutants = {
-    "Carbon Monoxide (Parts Per Million)": { label: "CO", unit: "ppm" },
+    "Carbon Monooxide (Parts Per Million)": { label: "CO", unit: "ppm" },
     "Nitrogen Dioxide (Parts Per Million)": { label: "NO₂", unit: "ppm" },
     "Nitric Oxide (Parts Per Million)": { label: "NO", unit: "ppm" },
     "Ozone (Dobson)": { label: "O₃", unit: "ppm" },
@@ -48,7 +48,7 @@ function RightSide({ dataset }) {
       { level: "UNHEALTHY", range: [255, 354] },
       { level: "HAZARDOUS", range: [355, 604] },
     ],
-    "Carbon Monoxide (Parts Per Million)": [
+    "Carbon Monooxide (Parts Per Million)": [
       { level: "GOOD", range: [0.0, 4.4] },
       { level: "MODERATE", range: [4.5, 9.4] },
       { level: "UNHEALTHY for Sensitive Groups", range: [9.5, 12.4] },

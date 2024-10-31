@@ -407,7 +407,7 @@ function OptionsPage1() {
                     Particulate Matter 2.5 (Micrograms/Cubic Meter)
                   </option>
                   <option value="Carbon Monooxide (Parts Per Million)">
-                    Carbon Monoxide (Parts Per Million)
+                    Carbon Monooxide (Parts Per Million)
                   </option>
                   <option value="Ozone (Dobson)">Ozone (Dobson)</option>
                   <option value="Sulphur Dioxide (kg/m²)">
