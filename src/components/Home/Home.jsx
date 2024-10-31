@@ -1,15 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import MapComponent from "../MapComponent";
 import Search from "./Search";
 import { BackButtonContext, WeatherContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import OptionsPage1 from "../OptionsPage1";
+import Dashboard from "../Dashboard";
+export const AddressContext = createContext();
+export const ChoroplethColorContext = createContext();
 
 function Home() {
+  const [address, setAddress] = useState({});
+
   const [isBackButtonClicked, setIsBackButtonClicked] =
     useContext(BackButtonContext);
   const navigate = useNavigate();
 
   const [position, setPosition] = useContext(WeatherContext);
+  const [choroplethData, setChoroplethData] = useState({});
 
   // ReverseGeocode function using Nominatim
 
@@ -19,26 +26,18 @@ function Home() {
     );
     const data = await response.json();
     if (data && data.address) {
-      navigate("/options", {
-        state: {
-          cityName: data.address.city || data.address.town || "Unknown",
-          state: data.address.state || "Unknown",
-        },
+      setAddress({
+        cityName: data.address.city || data.address.town || "Unknown",
+        state: data.address.state || "Unknown",
       });
-      // console.log(data.address.state);
-
-      // setSelectedCity(data.address.city || data.address.town || "Unknown");
-      // console.log(
-      //   `Selected city: ${data.address.city || data.address.town || "Unknown"}`
-      // );
-
-      // alert(
-      //   `Selected city: ${data.address.city || data.address.town || "Unknown"}`
-      // );
+      // navigate("/options", {
+      //   state: {
+      //     cityName: data.address.city || data.address.town || "Unknown",
+      //     state: data.address.state || "Unknown",
+      //   },
+      // });
     } else {
       console.log("City not found");
-
-      // alert("City not found");
     }
   };
 
@@ -56,12 +55,25 @@ function Home() {
   }, [position]);
 
   return (
-    <div className="w-full">
-      <div className=" w-full bg-[#273D5A] flex justify-center items-center">
-        <Search />
-      </div>
-      <MapComponent />
-    </div>
+    <>
+      <AddressContext.Provider value={[address, setAddress]}>
+        <ChoroplethColorContext.Provider
+          value={[choroplethData, setChoroplethData]}
+        >
+          <div className="w-full flex">
+            <div className="w-1/2 flex flex-col">
+              <div className="bg-[#273D5A] flex justify-center items-center">
+                <Search />
+              </div>
+              <MapComponent />
+            </div>
+            <div className="w-1/2 flex flex-col bg-[#273D5A]">
+              <OptionsPage1 />
+            </div>
+          </div>
+        </ChoroplethColorContext.Provider>
+      </AddressContext.Provider>
+    </>
   );
 }
 

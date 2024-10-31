@@ -29,10 +29,12 @@ const EnvironmentalChart = () => {
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setIsChartDataLoaded(true);
 
       const { Sheet1 } = data;
+
+      console.log(Sheet1);
 
       if (Sheet1) {
         const reqData = Sheet1.filter((entry) => {
@@ -90,23 +92,48 @@ const EnvironmentalChart = () => {
     pollutantData = [];
     if (pollutant && date && city && state) {
       const checkDate = new Date(date);
-      if (isPrevious && city === "Lancaster") {
+      if (isPrevious && city === "Riverside") {
         const startDate = new Date("2022-01-01");
-        const endDate = new Date("2022-08-31");
+        const endDate = new Date("2023-05-31");
 
         if (checkDate >= startDate && checkDate <= endDate) {
           const url =
-            "https://res.cloudinary.com/dzmjjm2kn/raw/upload/v1728676781/past_hourly_ieqf8e.json";
+            "https://res.cloudinary.com/data298b/raw/upload/v1729987106/Past_hourly_i63kzp.json";
+          fetchHourlyFromCloudinary(url);
+        }
+      } else if (!isPrevious && city === "Riverside") {
+        const url =
+          "https://res.cloudinary.com/data298b/raw/upload/v1729987102/Forecast_hourly_reh7a3.json";
+        fetchHourlyFromCloudinary(url);
+      } else if (isPrevious && city === "Santa Clarita") {
+        const startDate = new Date("2022-01-01");
+        const endDate = new Date("2022-12-31");
+
+        if (checkDate >= startDate && checkDate <= endDate) {
+          const url =
+            "https://res.cloudinary.com/data298b/raw/upload/v1729987284/Past_Hourly_Jan-Dec2022_fygrb1.json";
           fetchHourlyFromCloudinary(url);
         } else {
           const url =
-            "https://res.cloudinary.com/dzmjjm2kn/raw/upload/v1728676794/past_hourly_1_d4szvz.json";
+            "https://res.cloudinary.com/data298b/raw/upload/v1729987286/Past_Hourly_Jan2023_-_May_2023_end_csv_yvsa64.json";
           fetchHourlyFromCloudinary(url);
         }
-      }
-      if (!isPrevious && city === "Lancaster") {
+      } else if (!isPrevious && city === "Santa Clarita") {
         const url =
-          "https://res.cloudinary.com/dzmjjm2kn/raw/upload/v1728763420/forecast_hourly_bppnpy.json";
+          "https://res.cloudinary.com/data298b/raw/upload/v1729987278/Forecast_hourly_zoxbza.json";
+        fetchHourlyFromCloudinary(url);
+      } else if (isPrevious && city === "San Bernardino") {
+        const startDate = new Date("2022-01-01");
+        const endDate = new Date("2023-05-31");
+
+        if (checkDate >= startDate && checkDate <= endDate) {
+          const url =
+            "https://res.cloudinary.com/data298b/raw/upload/v1729987249/Past_hourly_o22q6c.json";
+          fetchHourlyFromCloudinary(url);
+        }
+      } else if (!isPrevious && city === "San Bernardino") {
+        const url =
+          "https://res.cloudinary.com/data298b/raw/upload/v1729987239/Forecast_hourly_pirv5q.json";
         fetchHourlyFromCloudinary(url);
       }
     }

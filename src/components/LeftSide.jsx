@@ -6,7 +6,7 @@ function LeftSide({ dataset }) {
   const [humidityStatus, setHumidityStatus] = useState("");
   const needleRef = useRef(null);
 
-  const { data, city, state, isPrevious } = dataset;
+  const { data, city, state, isPrevious, pollutant } = dataset;
 
   const navigate = useNavigate();
 
@@ -30,122 +30,47 @@ function LeftSide({ dataset }) {
   };
 
   return (
-    <div className="w-3/5 flex flex-col items-center">
-      <div className="w-full pl-5 pt-5 flex justify-between">
-        <p className="text-2xl font-medium text-[#273D5A]">{data.date}</p>
-      </div>
-      <div className="pt-5">
-        <div className="px-10 font-semibold text-2xl flex justify-between">
-          <p>Today Overview</p>
-        </div>
-
-        <div className="gap-10 py-5 flex flex-wrap justify-center items-center">
-          <div
-            className="cursor-pointer w-2/5 p-3 flex justify-evenly items-center text-[#273D5A] bg-slate-100 rounded-lg"
-            onClick={() => {
-              showDailyChart("wind_speed");
-            }}
-          >
-            <img src="icons/windy.png" alt="sunrise" width={50} />
-            <div className="flex flex-col gap-y-1 text-center">
-              <p className="">Wind Speed</p>
-              <p className="text-2xl font-semibold">{data.wind_speed.toFixed(2)} kmph</p>
+    <div className="max-w-full max-h-[450px] overflow-hidden bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
+      {/* <div className="w-full flex justify-between">
+        <p className="text-lg font-medium text-[#273D5A]">{data.date}</p>
+      </div> */}
+      <div className="pt-3">
+        {/* <p className="font-semibold text-lg text-center mb-2">Today Overview</p> */}
+        <div className="gap-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-3">
+          {[
+            { label: "Wind Speed", value: `${data.wind_speed.toFixed(2)} kmph`, icon: "icons/windy.png", chart: "wind_speed" },
+            { label: "Precipitation", value: data.precip, icon: "icons/rain.png", chart: "precip" },
+            { label: "Pressure (sea level)", value: data.sea_level_pressure.toFixed(2), icon: "icons/pressure.png", chart: "sea_level_pressure" },
+            { label: "UV Index", value: `${data.uv_index.toFixed(2)} mJ/cm²`, icon: "icons/sunrise.png", chart: "uv_index" },
+            { label: "Gust", value: `${data.wind_gust.toFixed(2)} kmph`, icon: "icons/windy.png", chart: "wind_gust" },
+            { label: "Humidity", value: `${data.humidity.toFixed(2)}%`, icon: "icons/humidity.png", chart: "humidity" },
+          ].map((item, idx) => (
+            <div
+              key={idx}
+              className="cursor-pointer p-2 flex flex-col items-center text-[#273D5A] bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors"
+              onClick={() => showDailyChart(item.chart)}
+            >
+              <img src={item.icon} alt={item.label} width={40} className="mb-1" />
+              <p className="text-center text-sm font-medium">{item.label}</p>
+              <p className="text-lg font-semibold">{item.value}</p>
             </div>
-          </div>
-          <div
-            className="cursor-pointer w-2/5 p-3 flex justify-evenly items-center text-[#273D5A] bg-slate-100 rounded-lg"
-            onClick={() => {
-              showDailyChart("precip");
-            }}
-          >
-            <img src="icons/rain.png" alt="sunrise" width={50} />
-            <div className="flex flex-col gap-y-1 text-center">
-              <p className="">Precipitation</p>
-              <p className="text-2xl font-semibold">{data.precip}</p>
-            </div>
-          </div>
-          <div
-            className="cursor-pointer w-2/5 p-3 flex justify-evenly items-center text-[#273D5A] bg-slate-100 rounded-lg"
-            onClick={() => {
-              showDailyChart("sea_level_pressure");
-            }}
-          >
-            <img src="icons/pressure.png" alt="sunrise" width={50} />
-            <div className="flex flex-col gap-y-1 text-center">
-              <p className="">Pressure (sea level)</p>
-              <p className="text-2xl font-semibold">
-                {data.sea_level_pressure.toFixed(2)}
-              </p>
-            </div>
-          </div>
-          <div
-            className="cursor-pointer w-2/5 p-3 flex justify-evenly items-center text-[#273D5A] bg-slate-100 rounded-lg"
-            onClick={() => {
-              showDailyChart("uv_index");
-            }}
-          >
-            <img src="icons/sunrise.png" alt="sunrise" width={50} />
-            <div className="flex flex-col gap-y-1 text-center">
-              <p className="">Uv Index</p>
-              <p className="text-2xl font-semibold">
-                {data.uv_index.toFixed(2)}
-                <span className="text-lg">
-                  mJ/cm<span className="text-sm align-top">2</span>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="w-full pl-20 gap-x-5 flex justify-start">
-        <>
-          <div className="w-2/5">
-            <div className="w-[200px] h-[190px] mt-10 relative">
-              <img
-                src="compass/compass.png"
-                alt=""
-                className="absolute top-0 left-0"
-                width={200}
-              />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 origin-bottom">
+          ))}
+          <div className="flex flex-col items-center text-[#273D5A] bg-slate-100 rounded-lg p-2">
+            <div className="w-[80px] h-[80px] relative flex justify-center items-center">
+              <img src="compass/compass.png" alt="Compass" className="w-full h-full" />
+              <div className="absolute inset-0 flex justify-center items-center">
                 <img
                   ref={needleRef}
                   src="compass/needle2.png"
-                  alt="compass needle"
-                  width={50}
+                  alt="Compass needle"
+                  width={30}
                   className="transition-transform duration-1000"
                 />
               </div>
             </div>
+            <p className="text-center text-sm font-medium mt-2">Wind Direction</p>
           </div>
-          <div className="w-full gap-10 flex flex-col items-center justify-center">
-            <div
-              className="cursor-pointer w-4/5 p-4 flex justify-evenly items-center text-[#273D5A] bg-slate-100 rounded-lg"
-              onClick={() => {
-                showDailyChart("wind_gust");
-              }}
-            >
-              <img src="icons/windy.png" alt="sunrise" width={50} />
-              <div className="flex flex-col gap-y-1 text-center">
-                <p className="">Gust</p>
-                <p className="text-2xl font-semibold">{data.wind_gust.toFixed(2)} kmph</p>
-              </div>
-            </div>
-            <div
-              className="cursor-pointer w-4/5 p-4 flex justify-evenly items-center text-[#273D5A] bg-slate-100 rounded-lg"
-              onClick={() => {
-                showDailyChart("humidity");
-              }}
-            >
-              <img src="icons/humidity.png" alt="sunrise" width={50} />
-              <div className="flex flex-col gap-y-1 text-center">
-                <p className="">Humidity</p>
-                <p className="text-2xl font-semibold">{data.humidity.toFixed(2)}%</p>
-              </div>
-              <p>{humidityStatus}</p>
-            </div>
-          </div>
-        </>
+        </div>
       </div>
     </div>
   );

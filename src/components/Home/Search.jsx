@@ -77,7 +77,7 @@ function Search() {
   }, [suggestion, searchTerm]);
 
   return (
-    <div className="w-1/3 flex flex-col">
+    <div className="w-1/2 flex flex-col">
       <div className="relative p-2 px-5 flex flex-col">
         <input
           type="text"

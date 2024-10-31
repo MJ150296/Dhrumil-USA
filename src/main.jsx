@@ -13,13 +13,16 @@ import OptionsPage from "./components/OptionsPage.jsx";
 import OptionsPage1 from "./components/OptionsPage1.jsx";
 import EnvironmentalChart from "./components/EnvironmentalChart.jsx";
 import Dashboard from "./components/Dashboard.jsx";
+import CityMap from "./components/Home/CityMap.jsx";
+import WeatherDashboard from "./components/Home/WeatherDashboard.jsx";
+import Home1 from "./components/Home/Home1.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="" element={<Home />} />
-      <Route path="options" element={<OptionsPage1 />} />
-      <Route path="dashboard" element={<Dashboard />} />
+      {/* <Route path="options" element={<OptionsPage1 />} />
+      <Route path="dashboard" element={<Dashboard />} /> */}
       <Route path="chart" element={<EnvironmentalChart />} />
     </Route>
   )
