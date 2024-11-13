@@ -15,9 +15,9 @@ import { ChoroplethColorContext } from "./Home/Home";
 function MapComponent() {
   const [showsuggestion, setShowSuggestion] = useContext(SuggestionContext);
   const [position, setPosition] = useContext(WeatherContext);
-  const [latitude, setLatitude] = useState(33.9824);
-  const [longitude, setLongitude] = useState(-117.3742);
-  const defaultRadius = 10000; // Radius in meters (e.g., 10 km)
+  const [latitude, setLatitude] = useState(34.0686);
+  const [longitude, setLongitude] = useState(-118.0276);
+  const defaultRadius = 9000; // Radius in meters (e.g., 10 km)
   const [isChoroplethVisible, setIsChoroplethVisible] = useState(false);
 
   const [choroplethData, setChoroplethData] = useContext(
@@ -61,7 +61,7 @@ function MapComponent() {
     <div className={`relative ${showsuggestion ? "-z-20" : "z-0"}`}>
       <MapContainer
         center={[latitude, longitude]}
-        zoom={11}
+        zoom={9}
         style={{ height: "770px", width: "100%" }}
       >
         <TileLayer
@@ -72,16 +72,43 @@ function MapComponent() {
         <LocationMarker />
 
         {/* Circle around city location to create a choropleth-like effect */}
-        {isChoroplethVisible && (
+        {isChoroplethVisible ? (
           <Circle
             center={[latitude, longitude]}
             radius={defaultRadius}
             pathOptions={{
-              color: choroplethData,
-              fillColor: choroplethData,
+              color: choroplethData || "blue",
+              fillColor: choroplethData || "blue",
               fillOpacity: 0.4,
             }}
           />
+        ) : (
+          <>
+            <Circle
+              center={[34.3917, -118.5426]}
+              radius={defaultRadius}
+              pathOptions={{
+                fillColor: "blue",
+                fillOpacity: 0.4,
+              }}
+            />
+            <Circle
+              center={[33.9824, -117.3742]}
+              radius={defaultRadius}
+              pathOptions={{
+                fillColor: "blue",
+                fillOpacity: 0.4,
+              }}
+            />
+            <Circle
+              center={[34.1083, -117.2898]}
+              radius={defaultRadius}
+              pathOptions={{
+                fillColor: "blue",
+                fillOpacity: 0.4,
+              }}
+            />
+          </>
         )}
       </MapContainer>
     </div>

@@ -26,7 +26,7 @@ function Dashboard({ data, city, state, isPrevious, pollutant }) {
     <>
       <div className=" max-w-full flex justify-center items-center">
         <div className="w-full flex flex-col items-center">
-          <RightSide dataset={{ data, isPrevious, pollutant }} />
+          <RightSide dataset={{ data, city, state, isPrevious, pollutant }} />
           <LeftSide dataset={{ data, city, state, isPrevious }} />
         </div>
       </div>

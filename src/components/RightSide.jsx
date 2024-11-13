@@ -4,8 +4,16 @@ import { ChoroplethColorContext } from "./Home/Home";
 
 function RightSide({ dataset }) {
   const { data, pollutant, city, state, isPrevious } = dataset;
+
+  const [selectedDate, setSelectedDate] = useState("");
+  console.log("date", data.date);
+  console.log("city", city);
+  console.log("state", state);
+
   const navigate = useNavigate();
-  const [choroplethData, setChoroplethData] = useContext(ChoroplethColorContext);
+  const [choroplethData, setChoroplethData] = useContext(
+    ChoroplethColorContext
+  );
   const pollutantDivRef = useRef(null);
   const [showAQICard, setShowAQICard] = useState(false);
 
@@ -15,8 +23,14 @@ function RightSide({ dataset }) {
     "Nitric Oxide (Parts Per Million)": { label: "NO", unit: "ppm" },
     "Ozone (Dobson)": { label: "O₃", unit: "ppm" },
     "Sulphur Dioxide (kg/m²)": { label: "SO₂", unit: "ppm" },
-    "Particulate Matter 2.5 (Micrograms/Cubic Meter)": { label: "PM 2.5", unit: "µg/m³" },
-    "Particulate Matter 10 (Micrograms/Cubic Meter)": { label: "PM 10", unit: "µg/m³" },
+    "Particulate Matter 2.5 (Micrograms/Cubic Meter)": {
+      label: "PM 2.5",
+      unit: "µg/m³",
+    },
+    "Particulate Matter 10 (Micrograms/Cubic Meter)": {
+      label: "PM 10",
+      unit: "µg/m³",
+    },
   };
 
   const aqiLevels = {
@@ -111,7 +125,7 @@ function RightSide({ dataset }) {
       HAZARDOUS: "purple",
     };
     console.log("colorMap[level]", colorMap[level]);
-    
+
     setChoroplethData(colorMap[level] || "green");
   }, [data, pollutant, setChoroplethData]);
 
@@ -135,7 +149,11 @@ function RightSide({ dataset }) {
         {data[pollutant] !== undefined ? (
           <div
             className="h-28 py-4 px-2 bg-[#7099cf] bg-opacity-20 text-center text-white rounded-lg cursor-pointer"
-            onClick={() => navigate("/chart", { state: { pollutant, city, state, isPrevious } })}
+            onClick={() =>
+              navigate("/chart", {
+                state: { pollutant, data, city, state, isPrevious },
+              })
+            }
             ref={pollutantDivRef}
           >
             <div className="flex gap-x-2 text-xl">
@@ -155,7 +173,9 @@ function RightSide({ dataset }) {
             <div className="flex flex-col gap-1">
               {aqiLevels[pollutant]?.map(({ level, range }) => (
                 <div key={level} className="flex items-center gap-2">
-                  <span className={`w-3 h-3 rounded-full ${getColorClass(level)}`}></span>
+                  <span
+                    className={`w-3 h-3 rounded-full ${getColorClass(level)}`}
+                  ></span>
                   <span className="text-sm">
                     {level} - {range[0]} to {range[1]}
                   </span>
