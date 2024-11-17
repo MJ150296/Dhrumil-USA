@@ -19,10 +19,11 @@ const EnvironmentalChart = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { pollutant, data, city, state, isPrevious } = location.state || {};
-  console.log(pollutant, data, city, state, isPrevious);
+  const { pollutant, date, data, city, state, isPrevious } =
+    location.state || {};
+  console.log(pollutant, date, data, city, state, isPrevious);
 
-  const { date } = data;
+  // const { date } = data;
 
   console.log("DATE", date);
 
@@ -34,7 +35,7 @@ const EnvironmentalChart = () => {
       }
 
       const data = await response.json();
-      console.log("data", data);
+      console.log("data22", data);
       setIsChartDataLoaded(true);
 
       if (data) {
@@ -229,15 +230,19 @@ const EnvironmentalChart = () => {
   };
 
   useEffect(() => {
-    const level = determineAQILevel(data[pollutant]);
-    const colorMap = {
-      GOOD: "green",
-      MODERATE: "yellow",
-      "UNHEALTHY for Sensitive Groups": "orange",
-      UNHEALTHY: "red",
-      HAZARDOUS: "purple",
-    };
-    console.log("colorMap[level]", colorMap[level]);
+    if (data) {
+      console.log("data[pollutant]", data[pollutant]);
+      
+      const level = determineAQILevel(data[pollutant]);
+      const colorMap = {
+        GOOD: "green",
+        MODERATE: "yellow",
+        "UNHEALTHY for Sensitive Groups": "orange",
+        UNHEALTHY: "red",
+        HAZARDOUS: "purple",
+      };
+      console.log("colorMap[level]", colorMap[level]);
+    }
   }, [data, pollutant]);
 
   return (

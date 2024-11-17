@@ -4,9 +4,8 @@ import { ChoroplethColorContext } from "./Home/Home";
 
 function RightSide({ dataset }) {
   const { data, pollutant, city, state, isPrevious } = dataset;
-
-  const [selectedDate, setSelectedDate] = useState("");
-  console.log("date", data.date);
+  const { date } = data;
+  console.log("date", date);
   console.log("city", city);
   console.log("state", state);
 
@@ -151,7 +150,7 @@ function RightSide({ dataset }) {
             className="h-28 py-4 px-2 bg-[#7099cf] bg-opacity-20 text-center text-white rounded-lg cursor-pointer"
             onClick={() =>
               navigate("/chart", {
-                state: { pollutant, data, city, state, isPrevious },
+                state: { pollutant, date, data, city, state, isPrevious },
               })
             }
             ref={pollutantDivRef}
