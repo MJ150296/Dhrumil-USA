@@ -65,7 +65,7 @@ function Home() {
               <div className="bg-[#273D5A] flex justify-center items-center">
                 <Search />
               </div>
-              <MapComponent />
+              <MapComponent address={address} />
             </div>
             <div className="w-1/2 flex flex-col bg-[#273D5A]">
               <OptionsPage1 />
